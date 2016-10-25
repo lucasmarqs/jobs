@@ -24,6 +24,13 @@ class App < Roda
         intermediary
       end
 
+      intermediaries_amount = intermediaries.reduce(0) { |sum, i| i['amount'] + sum }
+      if intermediaries_amount > amount
+        r.halt [400, {},
+          ["The sum of the intermediaries amounts is greater than the amount of the transaction."]
+        ]
+      end
+
       {
         id: SecureRandom.uuid,
         amount: amount,

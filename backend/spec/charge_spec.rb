@@ -83,8 +83,8 @@ RSpec.describe '[POST] /charge' do
       context 'with more than one intermediary' do
         let(:intermediaries) do
           [
-            { "fee": 0.1, "flat": 0.4, "description": "Tax Random1" },
-            { "fee": 0.3, "flat": 1, "description": "Tax Random2" }
+            { fee: 0.1, flat: 0.4, description: "Tax Random1" },
+            { fee: 0.3, flat: 1, description: "Tax Random2" }
           ]
         end
 
@@ -107,6 +107,27 @@ RSpec.describe '[POST] /charge' do
         subject { parsed_body["intermediaries"] }
 
         it { is_expected.to match_array [] }
+      end
+
+      context 'when intermediaries amount is greater than charge amount' do
+        let(:intermediaries) do
+          [
+            { fee: 0.6, flat: 1 },
+            { fee: 0.3, flat: 3 }
+          ]
+        end
+
+        let(:bad_request_message) do
+          "The sum of the intermediaries amounts is greater than the amount of the transaction."
+        end
+
+        it 'responds with bad request' do
+          expect(last_response.status).to eq 400
+        end
+
+        it 'responds with error message' do
+          expect(last_response.body).to eq bad_request_message
+        end
       end
     end
   end
