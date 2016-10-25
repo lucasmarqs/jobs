@@ -12,7 +12,7 @@ module ChargeSchema
           number: { type: :string, minLength: 16, maxLength: 16, pattern: /\d{16}/ },
           expiration_month: { type: :number, minimum: 1, maximum: 12 },
           expiration_year: { type: :number, minimum: Date.today.year },
-          cvv: { type: :number, minimum: 100, maximum: 999 }
+          cvv: { type: :string, minimum: 3, maximum: 3, pattern: /\d{3}/ }
         }
       },
       intermediaries: {

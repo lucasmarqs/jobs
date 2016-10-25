@@ -15,7 +15,7 @@ RSpec.describe '[POST] /charge' do
         number: '4200000000000000',
         expiration_month: 12,
         expiration_year: 2017,
-        cvv: 123
+        cvv: "096"
       },
       intermediaries: intermediaries
     }
